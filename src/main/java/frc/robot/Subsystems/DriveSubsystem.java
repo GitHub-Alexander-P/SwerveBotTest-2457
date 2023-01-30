@@ -49,19 +49,27 @@ public class DriveSubsystem extends SubsystemBase{
         drivers.set(fwd * fwdPercent);
 
         //Sets a margin of error for the bot so the turn motors don't drift.
-        if(rot < 0.1 || rot > -0.1){
+        if(rot > 0.2 || rot < -0.2){
             turners.set(rot * rotPercent);
         } else {
-            if(frightAV>fleftAV){
-                
+        //Correct wheel drifting.
+            if(fleftCC.getAbsolutePosition()!=frightCC.getAbsolutePosition()){
+                fleftTurning.set(0.05);
             }
+            if(bleftCC.getAbsolutePosition()!=frightCC.getAbsolutePosition()){
+                bleftTurning.set(0.05);
+            }
+            if(brightCC.getAbsolutePosition()!=frightCC.getAbsolutePosition()){
+                brightTurning.set(0.05);
+            }
+
         }
 
-        //Print out the absolute value positions of 
         System.out.println("AFR:" + frightCC.getAbsolutePosition());
         System.out.println("AFL:" + fleftCC.getAbsolutePosition());
         System.out.println("BLL:" + bleftCC.getAbsolutePosition());
-        System.out.println("BLR:" + brightCC.getAbsolutePosition());
+        System.out.println("BLR:" + brightCC.getAbsolutePosition());          
+
     }
 
     public void resetEncoders(){
